@@ -1,9 +1,27 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, :except => [:show, :index]
     def new
         @question =Question.new
       end
       def index
-        @questions =Question.all
+          if params[:filtro]
+          
+            @questions = Question.joins(:user)
+              .where("username like ?", "%#{params[:filtro]}%")
+              .or(
+                Question.joins(:user)
+                  .where("title like ?", "%#{params[:filtro]}%")
+              )
+              .or(
+                Question.joins(:user)
+                  .where("body like ?", "%#{params[:filtro]}%")
+              )
+
+              
+            
+          else
+            @questions = Question.all 
+          end
       end
       def create
         @question =Question.create(questions_params)
@@ -16,6 +34,7 @@ class QuestionsController < ApplicationController
         @question  =Question.find(params[:id])
         @answer = Answer.new
         @comment = Comment.new
+        @vote = Vote.new
       end
     
       def destroy

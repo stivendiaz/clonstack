@@ -3,7 +3,39 @@
 
     <!-- Aqui va el input de votos -->
     <div class="col-sm-1 text-center">
-      <form action="#">
+      <div class="container-votes">
+        <div>
+          <%= form_for @vote, url: voteup_path do |f| %>
+            <%= f.hidden_field :voteable_id, value: @question[:id] %>
+              <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+                <%= f.hidden_field :voteable_type, value: "Question" %>
+                  <%= f.button :submit , class: "btn" do %>
+                    <i class='glyphicon glyphicon glyphicon-menu-up'></i>
+                    <% end %>
+                      <% end %>
+        </div>
+
+        <div>
+              <h3 class="vote has-vote">
+                <%= @question.votes.length %>
+              </h3>
+
+        </div>
+
+        <div>
+          <%= form_for @vote, url: votedown_path do |f| %>
+            <%= f.hidden_field :voteable_id, value: @question[:id] %>
+              <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+                <%= f.hidden_field :voteable_type, value: "Question" %>
+                  <%= f.button :submit , class: "btn" do %>
+                    <i class='glyphicon glyphicon glyphicon-menu-down'></i>
+                    <% end %>
+                      <% end %>
+        </div>
+
+      </div>
+    </div>
+    <!-- <form action="#">
         <button class="btn" type="submit">
           <i class="glyphicon glyphicon glyphicon-menu-up"></i>
         </button>
@@ -13,7 +45,7 @@
           <i class="glyphicon glyphicon glyphicon-menu-down"></i>
         </button>
       </form>
-    </div>
+    </div>-->
 
     <!-- Aqui va  el panel de pregunta-->
     <div class="col-sm-7">
@@ -24,10 +56,14 @@
           </h3>
         </div>
         <div class="panel-body h-body">
-          <%=@question.body%>
+          <%=markdown(@question.body)%>
         </div>
       </div>
+      <% if !current_user.nil? %>
+        <%= link_to 'Eliminar Pregunta', @question, method: :delete, data: {confirm: '¿Esta seguro de eliminar la respuesta?. Los comentarios y votos asociados a ella no podrán visualizarse'}, class: 'btn btn-primary' if @question[:user_id] == current_user[:id] %>
+          <% end %>
     </div>
+
     <!-- Aqui va el panel de comentarios de la pregunta -->
     <div class="col-sm-4 ">
       <div class="panel panel-default">
@@ -38,7 +74,9 @@
 
           <%@question.comments.each do |comment|%>
             <li class="list-group-item">
-              <a href="#">Juan says: </a>
+              <a href="#">
+                <%= comment.user.username%>
+              </a>:
               <%= comment.body%>
             </li>
             <%end%>
@@ -64,33 +102,57 @@
 
 <hr>
 <!-- Aqui empiezan las respuestas -->
-<h2> Respuestas</h2>
+<h2>
+  <%= @question.answers.length%> Respuestas</h2>
 </br>
 </br>
-<%=@question.answers.each do |answer|%>
+<%@question.answers.each do |answer|%>
+
   <div class="panel-group">
     <div class="row">
       <div class="col-sm-1 text-center">
-        <form action="#">
-          <button class="btn" type="submit">
-            <i class="glyphicon glyphicon glyphicon-menu-up"></i>
-          </button>
-          <label class="h2" style="display: block;">0</label>
+        <div class="container-votes">
+          <div>
+            <%= form_for @vote, url: voteup_path do |f| %>
+              <%= f.hidden_field :voteable_id, value: answer[:id] %>
+                <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+                  <%= f.hidden_field :voteable_type, value: "Answer" %>
+                    <%= f.button :submit , class: "btn" do %>
+                      <i class='glyphicon glyphicon glyphicon-menu-up'></i>
+                      <% end %>
+                        <% end %>
+          </div>
 
-          <button class="btn" type="submit">
-            <i class="glyphicon glyphicon glyphicon-menu-down"></i>
-          </button>
-        </form>
+          <div>
+                <h3 class="vote has-vote">
+                  <%= answer.votes.length %>
+                </h3>
+
+          </div>
+
+          <div>
+            <%= form_for @vote, url: votedown_path do |f| %>
+              <%= f.hidden_field :voteable_id, value: answer[:id] %>
+                <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+                  <%= f.hidden_field :voteable_type, value: "Question" %>
+                    <%= f.button :submit , class: "btn" do %>
+                      <i class='glyphicon glyphicon glyphicon-menu-down'></i>
+                      <% end %>
+                        <% end %>
+          </div>
+
+        </div>
       </div>
 
       <div class="col-sm-7">
         <div class="panel panel-default ">
           <div class="panel-body h-body">
-            <%=answer.body%>
-              <%=answer.id%>
-
+            <%=markdown(answer.body)%>
           </div>
         </div>
+        <% if !current_user.nil? %>
+          <%= link_to 'Eliminar Respuesta', answer, method: :delete, data: {confirm: '¿Esta seguro de eliminar la respuesta?. Los comentarios y votos asociados a ella no podrán visualizarse'}, class: 'btn btn-primary' if answer[:user_id] == current_user[:id] %>
+            <% end %>
       </div>
 
       <div class="col-sm-4 ">
@@ -101,7 +163,9 @@
           <ul class="list-group  h-comment">
             <%answer.comments.each do |comment|%>
               <li class="list-group-item">
-                <a href="#">Juan says: </a>
+                <a href="#">
+                  <%= comment.user.username%>
+                </a>:
                 <%= comment.body%>
               </li>
               <%end%>
@@ -110,7 +174,7 @@
         </div>
         <br>
 
-        <!-- Aqui va el input de comentarios de pregunta -->
+        <!-- Aqui va el input de comentarios de respuesta -->
         <%= form_for @comment, :url => comments_path do |f| %>
           <%= f.hidden_field :commentable_id, value: answer.id %>
             <%= f.hidden_field :commentable_type, value: "Answer" %>
@@ -126,9 +190,8 @@
 
   </div>
   <hr>
-
   <%end%>
-    <hr>
+
 
     <%= form_for @answer, :url => answers_path do |f| %>
       <%= f.hidden_field :question_id, value: @question[:id] %>

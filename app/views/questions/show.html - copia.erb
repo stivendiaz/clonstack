@@ -1,0 +1,139 @@
+<div class="panel-group">
+  <div class="row">
+
+    <!-- Aqui va el input de votos -->
+    <div class="col-sm-1 text-center">
+      <form action="#">
+        <button class="btn" type="submit">
+          <i class="glyphicon glyphicon glyphicon-menu-up"></i>
+        </button>
+        <label class="h2" style="display: block;">0</label>
+
+        <button class="btn" type="submit">
+          <i class="glyphicon glyphicon glyphicon-menu-down"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Aqui va  el panel de pregunta-->
+    <div class="col-sm-7">
+      <div class="panel panel-default ">
+        <div class="panel-heading">
+          <h3>
+            <%= @question.title %>
+          </h3>
+        </div>
+        <div class="panel-body h-body">
+          <%=@question.body%>
+        </div>
+      </div>
+    </div>
+    <!-- Aqui va el panel de comentarios de la pregunta -->
+    <div class="col-sm-4 ">
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Comments</div>
+        <!-- List group -->
+        <ul class="list-group  h-comment">
+
+          <%@question.comments.each do |comment|%>
+            <li class="list-group-item">
+              <a href="#"><%= comment.user.username%></a> said:
+              <%= comment.body%>
+            </li>
+            <%end%>
+        </ul>
+      </div>
+      <br>
+
+      <!-- Aqui va el input de comentarios de pregunta -->
+      <%= form_for @comment, :url => comments_path do |f| %>
+        <%= f.hidden_field :commentable_id, value: @question.id %>
+          <%= f.hidden_field :commentable_type, value: "Question" %>
+            <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+              <div class="form-group">
+                <%= f.text_area :body, rows: 5, class: "form-control" %>
+              </div>
+              <%= f.submit 'Send', class: 'btn btn-default pull-right' %>
+                <% end %>
+    </div>
+
+  </div>
+
+</div>
+
+<hr>
+<!-- Aqui empiezan las respuestas -->
+<h2><%= @question.answers.length%> Respuestas</h2>
+</br>
+</br>
+<%=@question.answers.each do |answer|%>
+
+  <div class="panel-group">
+    <div class="row">
+      <div class="col-sm-1 text-center">
+        <form action="#">
+          <button class="btn" type="submit">
+            <i class="glyphicon glyphicon glyphicon-menu-up"></i>
+          </button>
+          <label class="h2" style="display: block;">0</label>
+
+          <button class="btn" type="submit">
+            <i class="glyphicon glyphicon glyphicon-menu-down"></i>
+          </button>
+        </form>
+      </div>
+
+      <div class="col-sm-7">
+        <div class="panel panel-default ">
+          <div class="panel-body h-body">
+            <%=answer.body%>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4 ">
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Comments</div>
+          <!-- List group -->
+          <ul class="list-group  h-comment">
+            <%answer.comments.each do |comment|%>
+              <li class="list-group-item">
+              <a href="#"><%= comment.user.username%></a> said:
+              <%= comment.body%>
+            </li>
+              <%end%>
+          </ul>
+
+        </div>
+        <br>
+
+        <!-- Aqui va el input de comentarios de pregunta -->
+        <%= form_for @comment, :url => comments_path do |f| %>
+          <%= f.hidden_field :commentable_id, value: answer.id %>
+            <%= f.hidden_field :commentable_type, value: "Answer" %>
+              <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+                <div class="form-group">
+                  <%= f.text_area :body, rows: 5, class: "form-control" %>
+                </div>
+                <%= f.submit 'Send', class: 'btn btn-default pull-right' %>
+                  <% end %>
+      </div>
+
+    </div>
+
+  </div>
+  <hr>
+  <%end%>
+  
+  <hr>
+
+    <%= form_for @answer, :url => answers_path do |f| %>
+      <%= f.hidden_field :question_id, value: @question[:id] %>
+        <%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+          <div class="form-group">
+            <%= f.text_area :body, rows: 5, class: "form-control" %>
+          </div>
+          <%= f.submit 'Enviar Respuesta', class: 'btn btn-primary' %>
+     <% end %>
