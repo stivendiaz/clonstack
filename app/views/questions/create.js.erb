@@ -1,6 +1,6 @@
 <% if @question.errors.empty? %>
   // add the row to the table, show alert and hide modal
-  $('table tbody').append(' <%= j render "row", question: @question %>');
+  $('.body').append(' <%= j render "row", question: @question %>');
   $('.alert-success').html("El producto ha sido creado con éxito").show();
   $('#product-modal').modal('hide');
 <% else %>
