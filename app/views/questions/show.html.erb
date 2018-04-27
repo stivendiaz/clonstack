@@ -16,9 +16,9 @@
         </div>
 
         <div>
-              <h3 class="vote has-vote">
-                <%= @question.votes.length %>
-              </h3>
+          <h3 class="vote has-vote">
+            <%= @question.votes.length %>
+          </h3>
 
         </div>
 
@@ -61,7 +61,8 @@
       </div>
       <% if !current_user.nil? %>
         <%= link_to 'Eliminar Pregunta', @question, method: :delete, data: {confirm: '¿Esta seguro de eliminar la respuesta?. Los comentarios y votos asociados a ella no podrán visualizarse'}, class: 'btn btn-primary' if @question[:user_id] == current_user[:id] %>
-          <% end %>
+          <%= link_to 'Editar Pregunta', edit_question_path(@question), class: 'btn btn-primary' %>
+            <% end %>
     </div>
 
     <!-- Aqui va el panel de comentarios de la pregunta -->
@@ -124,9 +125,9 @@
           </div>
 
           <div>
-                <h3 class="vote has-vote">
-                  <%= answer.votes.length %>
-                </h3>
+            <h3 class="vote has-vote">
+              <%= answer.votes.length %>
+            </h3>
 
           </div>
 
@@ -152,7 +153,8 @@
         </div>
         <% if !current_user.nil? %>
           <%= link_to 'Eliminar Respuesta', answer, method: :delete, data: {confirm: '¿Esta seguro de eliminar la respuesta?. Los comentarios y votos asociados a ella no podrán visualizarse'}, class: 'btn btn-primary' if answer[:user_id] == current_user[:id] %>
-            <% end %>
+          <%= link_to 'Eliminar Respuesta', answer, method: :delete, data: {confirm: '¿Esta seguro de eliminar la respuesta?. Los comentarios y votos asociados a ella no podrán visualizarse'}, class: 'btn btn-primary' if answer[:user_id] == current_user[:id] %>
+              <% end %>
       </div>
 
       <div class="col-sm-4 ">
