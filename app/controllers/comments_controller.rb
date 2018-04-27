@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
     def create
     @comment = Comment.new(comment_params)
     if @comment.save
-        flash[:success] = "Woohoo!"
+        flash[:success] = "Comentario añadido exitosamente!"
     else
         flash[:danger] = "#{@comment.errors.messages}"
     end
