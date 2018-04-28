@@ -27,7 +27,7 @@ class QuestionsController < ApplicationController
         @question =Question.create(questions_params)
         @question[:user_id] = current_user[:id]
         @question.save
-        redirect_to questions_path(@question)
+        #redirect_to questions_path(@question)
         
       end
       def show
@@ -50,7 +50,7 @@ class QuestionsController < ApplicationController
     
       def update
         @question =Question.find(params[:id])
-        if @question.update(question_params)
+        if @question.update(questions_params)
           redirect_to question_path, notice: "Question reload!"
         else
           render :edit

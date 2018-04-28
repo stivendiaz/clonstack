@@ -62,8 +62,8 @@
             </li>
             <%end%>
       </ul>
-      <form class="navbar-form navbar-right" action="/">                                         
-	  	          <input type="text" href="/question/" name="filtro" class="form-control" placeholder="Search">
+      <form class="navbar-form navbar-right" action="/">
+        <input type="text" href="/question/" name="filtro" class="form-control" placeholder="Search">
       </form>
     </div>
   </nav>
@@ -110,7 +110,7 @@
               </div>
 
               <div class="actions">
-              <br>
+                <br>
                 <%= f.submit "Sign up", :class =>"form-control btn btn-info" %>
               </div>
               <% end %>
@@ -126,39 +126,49 @@
     </div>
   </div>
 
-   <div class="modal custom fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-           &times;       
-         </button>
-         <h2 class="text-center h2">Login</h2>
-       </div>
-       <div class="modal-body">  
-         <%= form_for(:user, :url => session_path(:user)) do |f| %>
-           <div class="email-container">
-             <%= f.text_field :email, :class =>"form-control",placeholder: "Email", value:"" %>
-           </div>
-           <br>
-           <div class="password-container">
-             <%= f.password_field :password,:label =>"Password", :class =>"form-control", placeholder:"Password", value:""%>
-           </div>
-           <br>
-           <%= f.submit 'Login', :class =>"form-control btn btn-info" %>
-           <%= f.check_box :remember_me, label: "Remember me", value: "true" %>
-           <%= f.label :remember_me %>
-         <% end %>
-       </div>
-     </div>
-   </div>
-</div>
+  <div class="modal custom fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h2 class="text-center h2">Login</h2>
+        </div>
+        <div class="modal-body">
+          <%= form_for(:user, :url => session_path(:user)) do |f| %>
+            <div class="email-container">
+              <%= f.text_field :email, :class =>"form-control",placeholder: "Email", value:"" %>
+            </div>
+            <br>
+            <div class="password-container">
+              <%= f.password_field :password,:label =>"Password", :class =>"form-control", placeholder:"Password", value:""%>
+            </div>
+            <br>
+            <%= f.submit 'Login', :class =>"form-control btn btn-info" %>
+              <%= f.check_box :remember_me, label: "Remember me", value: "true" %>
+                <%= f.label :remember_me %>
+                  <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <div class="container">
   <% flash.each do |name, msg| %>
   	    <%= content_tag(:div, msg, class: "alert alert-#{name}") %>
   <% end %>
 
-    <%= yield %>
+    <div class="alert alert-success alert-dismissible" style="display: none;">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <div class="flash">
+      </div>
+    </div>
+    <%= render 'layouts/messages' %>
+
+      <%= yield %>
   </div>
 </body>
 

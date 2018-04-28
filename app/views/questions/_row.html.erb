@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1">
+                <div class="text-center">
+                    <%= question.votes.length %>
+                </div>
+                <div class="text-center">votes</div>
+            </div>
+            <div class="col-sm-1">
+                <div class="text-center">
+                    <%= question.answers.length%>
+                </div>
+                <div class="text-center">answer</div>
+            </div>
+            <div class="col-sm-1">
+                <div class="text-center">0</div>
+                <div class="text-center">views</div>
+            </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6">
+                <%=link_to(question.title, question_path(question))%>
+                    <div>posted by
+                        <%= question.user.username%>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

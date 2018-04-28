@@ -1,10 +1,17 @@
-<a href="questions/new" class="btn btn-info pull-right" role="button">Ask a question</a>
+
+<div>
+<%if signed_in?%>
  <%= link_to "Ask a question", new_question_path, remote: true, class: "btn btn-info pull-right" %>
+
+<%else%>
+<a data-toggle="modal" href="#login" class="btn btn-info pull-right" role="button">Ask a question</a>
+
+ <%end%>
 <div class="panel panel-default" style="margin-top:50px">
     <div class="panel-heading">
         <h3>Questions</h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body  body">
             <% @questions.each do |question|%>
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -21,4 +28,5 @@
                 <% end%>
                 
     </div>
+</div>
 </div>
