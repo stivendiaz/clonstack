@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer = Answer.find(params[:id])
     if @answer.destroy
-      flash[:success] = "Respuesta eliminada exitsaomente!"
+      flash[:success] = "Respuesta eliminada exitosamente!"
     else
       flash[:danger] = "Ha ocurrido un error"
     end
