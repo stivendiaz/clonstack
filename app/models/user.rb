@@ -22,9 +22,15 @@ class User < ApplicationRecord
   has_many :answers
 	has_many :questions
 	has_many :votes
-	has_many :comments
+  has_many :comments
+  
+  after_create :send_email
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  private
+  def send_email
+         UserMailer.welcome_email(self).deliver_now
+  end
 end
