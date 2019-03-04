@@ -16,4 +16,6 @@ class Answer < ApplicationRecord
   belongs_to :question
   has_many :votes, as: :voteable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+
+  validates :body, presence: {message: "no puede estar vacio"}
 end

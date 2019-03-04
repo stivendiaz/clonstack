@@ -7,7 +7,7 @@ class AnswersController < ApplicationController
   		flash[:success] = "Respuesta añadida exitosamente!"
   		redirect_to question_path(@answer.question_id)
     else
-      flash[:danger] = "Ha ocurrido un error"
+      flash[:danger] = "Respuesta con formato incorrecto o vacia"
       redirect_to question_path(@answer.question_id)
     end
   end
@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer = Answer.find(params[:id])
     if @answer.destroy
-      flash[:success] = "Respuesta eliminada exitsaomente!"
+      flash[:success] = "Respuesta eliminada exitosamente!"
     else
       flash[:danger] = "Ha ocurrido un error"
     end

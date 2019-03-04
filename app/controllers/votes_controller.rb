@@ -2,24 +2,20 @@ class VotesController < ApplicationController
     before_action :authenticate_user!
 
 	def voteup
-        @vote = Vote.new(vote_params)	
-
-        unless Vote.find_by(user_id: vote_params[:user_id],voteable_type: vote_params[:voteable_type] ,voteable_id: vote_params[:voteable_id])
+		@vote = Vote.new(vote_params)		
 		if @vote.save
 			flash[:success] = "Voto añadito correctamente"
 		else
 			vote_params[:voteable_type] == 'Question' ?  tipo = "Pregunta" : tipo = "Respuesta"
 			flash[:warning] = "#{@vote.errors.messages[:user_id][0]} para esta #{tipo}"
-        end
-    
+		end
 
 		if vote_params[:voteable_type] == 'Question'
 			redirect_to question_path(vote_params[:voteable_id])
 		else
 			@answer = Answer.find(vote_params[:voteable_id])
 			redirect_to question_path(@answer.question_id)
-        end
-    end
+		end
 	end
 
 	def votedown
@@ -46,7 +42,7 @@ class VotesController < ApplicationController
 	end
 
 	private 
-		def vote_params
+	def vote_params
       params.require(:vote).permit(:user_id, :voteable_type, :voteable_id)
     end
 end

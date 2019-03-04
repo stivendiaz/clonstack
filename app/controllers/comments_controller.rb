@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
     if @comment.save
         flash[:success] = "Comentario añadido exitosamente!"
     else
-        flash[:danger] = "#{@comment.errors.messages}"
+        flash[:danger] = "Comentario con formato incorrecto o vacio"
     end
 
 
